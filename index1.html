@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brain Teaser Challenge</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg,#ffefba,#ffffff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .game-box {
+        background: white;
+        padding: 5vw;
+        border-radius: 5vw;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+    }
+    h1 {
+        font-size: 6vw;
+        margin-bottom: 3vw;
+    }
+    .score {
+        font-size: 5vw;
+        margin-bottom: 3vw;
+    }
+    #question {
+        font-size: 7vw;
+        font-weight: bold;
+        margin: 4vw 0;
+    }
+    input {
+        width: 100%;
+        font-size: 6vw;
+        padding: 3vw;
+        text-align: center;
+        border-radius: 2vw;
+        border: 2px solid #ccc;
+        margin-bottom: 4vw;
+        box-sizing: border-box;
+    }
+    button {
+        width: 100%;
+        font-size: 6vw;
+        padding: 3vw;
+        border-radius: 2vw;
+        border: none;
+        background-color: #ff5722;
+        color: white;
+        cursor: pointer;
+    }
+    button:active {
+        background-color: #e64a19;
+    }
+    #message {
+        font-size: 5vw;
+        margin-top: 3vw;
+    }
+</style>
+</head>
+<body>
+
+<div class="game-box">
+    <h1>🧠 Brain Teaser</h1>
+    <div class="score">Score: <span id="score">0</span></div>
+    <div id="question"></div>
+    <input type="number" id="answer" placeholder="Your answer">
+    <button onclick="checkAnswer()">Check</button>
+    <div id="message"></div>
+</div>
+
+<script>
+let score = 0;
+let num1, num2, operation;
+
+function newQuestion() {
+    num1 = Math.floor(Math.random() * 50) + 1;
+    num2 = Math.floor(Math.random() * 50) + 1;
+    operation = Math.random() < 0.5 ? '+' : '-';
+    if(operation === '-' && num2 > num1) [num1, num2] = [num2, num1];
+    document.getElementById('question').innerText = `${num1} ${operation} ${num2} = ?`;
+    document.getElementById('answer').value = '';
+    document.getElementById('message').innerText = '';
+}
+
+function checkAnswer() {
+    let userAnswer = Number(document.getElementById('answer').value);
+    let correctAnswer = operation === '+' ? num1 + num2 : num1 - num2;
+    if(userAnswer === correctAnswer){
+        score++;
+        document.getElementById('score').innerText = score;
+        document.getElementById('message').innerText = '✅ Correct!';
+    } else {
+        document.getElementById('message').innerText = '❌ Wrong! Try next!';
+    }
+    setTimeout(newQuestion, 700);
+}
+
+newQuestion();
+</script>
+
+</body>
+</html>
